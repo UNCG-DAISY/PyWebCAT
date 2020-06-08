@@ -77,6 +77,23 @@ class VidViewer:
     def fps(self):
         return int(self.video.get(cv2.CAP_PROP_FPS))
 
+    def generate_url(self, station_code, year, month, day, time):
+        """Generate WebCAT URLs and expressive name for files from user inputs.
+
+        Parameters
+        ----------
+        station_code
+        year : str
+        month: str
+        day: str
+        time: str
+
+        """
+        URL = "http://webcat-video.axds.co/" + str(station_code) + "/raw/" + str(year) +"/" + str(year) + "_" + str(month) + "/" + str(year) + "_" + str(month) + "_" + str(day) + "/" + str(station_code) + "." + str(year) + "-" +str(month) + "-" + str(day) + "_" + str(time) + ".mp4"
+        Video_Name = str(station_code) + "_" + str(year) + "_" + str(month) + "_" + str(day) + "_" + str(time) + ".mp4"
+        return URL, Video_Name;
+
+
     def download_url(self, fout, verbose: bool = True):
         """Download the video from the instance url.
 
