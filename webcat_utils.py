@@ -1,7 +1,9 @@
+import os
 import urllib.request
 import cv2
 from tqdm import tqdm
 import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
 
 plt.style.use("ggplot")
@@ -15,7 +17,7 @@ plt.rcParams.update(
 )
 
 
-class VidViewer:
+class WebCAT:
     """Utility class for viewing local or remote webcat videos.
 
     Parameters
@@ -48,18 +50,10 @@ class VidViewer:
     Saving to buxtoncoastalcam.2019-11-13_1000.mp4:  0%|      | 44.1M/125M [00:08<00:16, 5.18MB/s]
     """
 
-    def __init__(self, fin: str):
-        self._fin = fin
-        self.video = cv2.VideoCapture(self.fin)
-
-    @property
-    def fin(self):
-        return self._fin
-
-    @fin.setter
-    def fin(self, value: str):
-        self._fin = value
-        self.video = cv2.VideoCapture(self.fin)
+    def __init__(self):
+        self.url = None
+        self.name = None
+        self.video = None
 
     @property
     def width(self):
@@ -77,34 +71,35 @@ class VidViewer:
     def fps(self):
         return int(self.video.get(cv2.CAP_PROP_FPS))
 
-    def generate_url(self, station_code, year, month, day, time):
+    def generate_url(
+        self, station_code: str, year: int, month: int, day: int, time: int
+    ):
         """Generate WebCAT URLs and expressive name for files from user inputs.
 
         Parameters
         ----------
-        station_code
+        station_code : str
         year : str
         month: str
         day: str
         time: str
 
         """
-        URL = "http://webcat-video.axds.co/" + str(station_code) + "/raw/" + str(year) +"/" + str(year) + "_" + str(month) + "/" + str(year) + "_" + str(month) + "_" + str(day) + "/" + str(station_code) + "." + str(year) + "-" +str(month) + "-" + str(day) + "_" + str(time) + ".mp4"
-        Video_Name = str(station_code) + "_" + str(year) + "_" + str(month) + "_" + str(day) + "_" + str(time) + ".mp4"
-        return URL, Video_Name;
+        self.url = f"http://webcat-video.axds.co/{station_code}/raw/{year}/{year}_{month}/{year}_{month}_{day}/{station_code}.{year}-{month}-{day}_{time}.mp4"
+        self.name = f"{station_code}_{year}_{month}_{day}_{time}"
+        self.video = cv2.VideoCapture(self.url)
 
-
-    def download_url(self, fout, verbose: bool = True):
+    def download_url(self, fout: str = None, verbose: bool = True):
         """Download the video from the instance url.
 
         Parameters
         ----------
         fout : str
-            The file path to save the downloaded file to, by default None
+            The file path to save the downloaded file to, e.g., ~/Downloads/download.mp4, by default None
         verbose : {True, False}, optional
             Display download progress bar, by default True
         """
-        fout = fout + ".mp4" if fout[-4:] != ".mp4" else fout
+        fout = self.name + ".mp4" if fout == None else fout
         try:
             if verbose:
                 with TqdmUpTo(
@@ -114,13 +109,13 @@ class VidViewer:
                     miniters=1,
                     desc=f"Saving to {fout}",
                 ) as t:  # all optional kwargs
-                    urllib.request.urlretrieve(self.fin, fout, reporthook=t.update_to)
+                    urllib.request.urlretrieve(self.url, fout, reporthook=t.update_to)
             else:
-                urllib.request.urlretrieve(self.fin, fout)
+                urllib.request.urlretrieve(self.url, fout)
         except:
             print(f"{self.url} is not a valid url.")
 
-    def save_frames(self, delta_t: int = 10, fout=""):
+    def save_frames(self, delta_t: int = 10, fout_path: str = "", save_csv=True):
         """Download the video from the instance url.
 
         Parameters
@@ -128,7 +123,7 @@ class VidViewer:
         delta_t : int, optional
             A frame will be saved every delta_t seconds, by default 10
         fout : str, optional
-            Path to save at, e.g., "~/Downloads/"
+            Path to save frames and csv to, e.g., "~/Downloads/"
         """
         assert delta_t < int(
             self.frames / self.fps
@@ -137,7 +132,20 @@ class VidViewer:
         for i in tqdm(range(0, (self.frames + 1), step)):
             self.video.set(1, i)
             _, frame_arr = self.video.read()
-            cv2.imwrite(fout + f"frame_{i}.jpg", frame_arr)
+            cv2.imwrite(fout_path + f"frame_{i}.jpg", frame_arr)
+        if save_csv:
+            (
+                pd.DataFrame(
+                    data=[self.url, self.name]
+                    + [
+                        fout_path + f"frame_{_}.jpg"
+                        for _ in range(0, (self.frames + 1), step)
+                    ],
+                    columns=["value"],
+                    index=["url", "name"]
+                    + [f"frame_{_}" for _ in range(0, (self.frames + 1), step)],
+                ).to_csv(fout_path + f"{self.name}.csv")
+            )
 
     def plot_frames(self, frames: list = [0]):
         """Plot frames from the video, zero-based indexing.
