@@ -3,7 +3,7 @@
 ![](https://img.shields.io/badge/-UNCG-blue)
 ![](https://img.shields.io/badge/-DAISY-yellow)
 
-Short description.
+Python module and CLI for accessing [WebCAT videos](https://secoora.org/webcat/).
 
 ## Usage
 
@@ -113,3 +113,5 @@ Contributions are welcome and greatly appreciated! If you're interested in contr
 All contributions are welcomed and recognized! You can see a list of current contributors in the [contributors tab](https://github.com/UNCG-DAISY/WebCAT-Utilities/graphs/contributors).
 
 ## Acknowledgements
+
+Thanks to the [Southeast Coastal Ocean Observing Regional Association (SECOORA)and the WebCAT project](https://secoora.org/webcat/) for making camera footage publicly available and supporting open science and data.
