@@ -1,10 +1,12 @@
 import os
-import urllib.request
 import cv2
-from tqdm import tqdm
+import argparse
+import itertools
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+import urllib.request
+from tqdm import tqdm
 
 plt.style.use("ggplot")
 plt.rcParams.update(
@@ -20,20 +22,22 @@ plt.rcParams.update(
 class WebCAT:
     """Utility class for viewing local or remote webcat videos.
 
-    Parameters
-    ----------
-    fin : str
-        A url or local file path to the .mp4 file to view.
-
     Attributes
     ----------
-    fin
+    url : 
+        url to the .mp4 file.
+    name : 
+        Unique name based on url.
     video : cv2.VideoCapture
-        The cv2.VideoCapture object of the video file provided by fin.
+        The cv2.VideoCapture object of the video file at url.
     frames: int
         Total number of frames in the video.
     fps : int
         Frames per second in the video.
+    width : int
+        Width of video frames in pixels.
+    height : int
+        Height of video frames in pixels.
 
     Methods
     -------
@@ -71,23 +75,31 @@ class WebCAT:
     def fps(self):
         return int(self.video.get(cv2.CAP_PROP_FPS))
 
-    def generate_url(
-        self, station_code: str, year: int, month: int, day: int, time: int
-    ):
+    def generate_url(self, station: str, year: int, month: int, day: int, time: int):
         """Generate WebCAT URLs and expressive name for files from user inputs.
 
         Parameters
         ----------
-        station_code : str
-        year : str
-        month: str
-        day: str
-        time: str
+        station : str
+            Station name, e.g., "buxtoncoastalcam".
+        year : int
+            Year of video, e.g., 2020.
+        month: int
+            Month (numerical) of video, e.g., 11.
+        day: int
+            Day of video, e.g., 17.
+        time: int
+            Time (24 hr) of video rounded to nearest 10 minutes, e.g., 0500 (5:00 am), 1300 (1:00 pm), 1330 (1:30pm).
 
         """
-        self.url = f"http://webcat-video.axds.co/{station_code}/raw/{year}/{year}_{month}/{year}_{month}_{day}/{station_code}.{year}-{month}-{day}_{time}.mp4"
-        self.name = f"{station_code}_{year}_{month}_{day}_{time}"
-        self.video = cv2.VideoCapture(self.url)
+        url = f"http://webcat-video.axds.co/{station}/raw/{year}/{year}_{month}/{year}_{month}_{day}/{station}.{year}-{month}-{day}_{time}.mp4"
+        vid = cv2.VideoCapture(url)
+        if int(vid.get(7)) == 0:  # check if there are any frames
+            raise ValueError(f"{url} is not a valid url.")
+        else:
+            self.url = url
+            self.video = vid
+            self.name = f"{station}_{year}_{month}_{day}_{time}"
 
     def download_url(self, fout: str = None, verbose: bool = True):
         """Download the video from the instance url.
@@ -100,51 +112,55 @@ class WebCAT:
             Display download progress bar, by default True
         """
         fout = self.name + ".mp4" if fout == None else fout
-        try:
-            if verbose:
-                with TqdmUpTo(
-                    unit="B",
-                    unit_scale=True,
-                    unit_divisor=1024,
-                    miniters=1,
-                    desc=f"Saving to {fout}",
-                ) as t:  # all optional kwargs
-                    urllib.request.urlretrieve(self.url, fout, reporthook=t.update_to)
-            else:
-                urllib.request.urlretrieve(self.url, fout)
-        except:
-            print(f"{self.url} is not a valid url.")
+        if verbose:
+            with TqdmUpTo(
+                unit="B",
+                unit_scale=True,
+                unit_divisor=1024,
+                miniters=1,
+                desc=f"Saving to {fout}",
+            ) as t:  # all optional kwargs
+                urllib.request.urlretrieve(self.url, fout, reporthook=t.update_to)
+        else:
+            urllib.request.urlretrieve(self.url, fout)
 
-    def save_frames(self, delta_t: int = 10, fout_path: str = "", save_csv=True):
+    def save_frames(
+        self, delta_t: int = 10, fout_path: str = "", save_csv=True, verbose=False
+    ):
         """Download the video from the instance url.
 
         Parameters
         ----------
         delta_t : int, optional
-            A frame will be saved every delta_t seconds, by default 10
+            A frame will be saved every delta_t seconds, by default 10.
         fout : str, optional
-            Path to save frames and csv to, e.g., "~/Downloads/"
+            Path to save frames and csv to, e.g., "~/Downloads/".
         """
         assert delta_t < int(
             self.frames / self.fps
         ), f"delta_t should be less than {int(self.frames / self.fps)}"
         step = delta_t * self.fps
-        for i in tqdm(range(0, (self.frames + 1), step)):
+        step_range = range(0, (self.frames + 1), step)
+        loop = tqdm(step_range) if verbose else step_range
+        tmp_dir = os.path.join(fout_path, "jpg")  # save images in a "jpg" folder
+        if not os.path.exists(tmp_dir):
+            os.makedirs(tmp_dir)  # mkdir if not exist
+        for i in loop:
             self.video.set(1, i)
             _, frame_arr = self.video.read()
-            cv2.imwrite(fout_path + f"frame_{i}.jpg", frame_arr)
+            cv2.imwrite(os.path.join(tmp_dir, f"frame_{i}.jpg"), frame_arr)
         if save_csv:
             (
                 pd.DataFrame(
-                    data=[self.url, self.name]
-                    + [
-                        fout_path + f"frame_{_}.jpg"
-                        for _ in range(0, (self.frames + 1), step)
-                    ],
-                    columns=["value"],
-                    index=["url", "name"]
-                    + [f"frame_{_}" for _ in range(0, (self.frames + 1), step)],
-                ).to_csv(fout_path + f"{self.name}.csv")
+                    {
+                        "url": self.url,
+                        "name": self.name,
+                        "frame": list(step_range),
+                        "path": [
+                            os.path.join(tmp_dir, f"frame_{_}.jpg") for _ in step_range
+                        ],
+                    }
+                ).to_csv(os.path.join(fout_path, f"{self.name}.csv"))
             )
 
     def plot_frames(self, frames: list = [0]):
@@ -153,7 +169,15 @@ class WebCAT:
         Parameters
         ----------
         frames : list, optional
-            List of the frames to display in a grid plot, by default [0]
+            List of the frames to display in a grid plot, by default [0].
+        
+        Examples
+        --------
+        >>> from webcat_utils import WebCAT
+        >>> wc.generate_url("buxtoncoastalcam", 2019, 11, 13, 1000)
+        >>> wc.plot_frames()
+        ...
+        <matplotlib.subplots>
         """
         assert all(
             (_ >= 0) & (_ < self.frames) for _ in frames
@@ -181,6 +205,14 @@ class WebCAT:
         ----------
         step : int, optional
             The step between frames to average by, lower values result in a smoother average, by default 10.
+        
+        Examples
+        --------
+        >>> from webcat_utils import WebCAT
+        >>> wc.generate_url("buxtoncoastalcam", 2019, 11, 13, 1000)
+        >>> wc.plot_average_frame()
+        ...
+        <matplotlib.subplot>
         """
         N = self.frames // step  # how many frames to average based on step
         timex = np.zeros((self.height, self.width, 3, N), np.float)  # init array
@@ -227,3 +259,153 @@ class TqdmUpTo(tqdm):
         if tsize is not None:
             self.total = tsize
         self.update(b * bsize - self.n)  # will also set self.n = b * bsize
+
+
+def cli(
+    directory: str,
+    station: list,
+    year: list,
+    month: list,
+    day: list,
+    time: list,
+    interval: int,
+    no_meta: bool,
+    verbose: bool,
+):
+    """Command line function for saving frames of webCAT videos.
+
+    Parameters
+    ----------
+    directory : str
+        Absolute path of directory to save frames and metadata in.
+    station : list
+        List of stations to iterate over.
+    year : list
+        List of years to iterate over.
+    month : list
+        List of months to iterate over.
+    day : list
+        List of days to iterate over.
+    time : list
+        List of times to iterate over.
+    interval : int
+        Interval in seconds between video frames to save.
+    no_meta : bool
+        Don't save .csv file of metadata of saved video frames.
+    verbose : bool
+        Print program status during execution.
+    """
+    wc = WebCAT()
+    for item in itertools.product(station, year, month, day, time):
+        try:
+            wc.generate_url(*item)  # generate url from the input data
+            tmp_dir = os.path.join(directory, item[0], wc.name)  # dir to save frames in
+            if not os.path.exists(tmp_dir):
+                os.makedirs(tmp_dir)  # mkdir if not exist
+            if verbose:
+                print(f"Saving frames of {wc.name}...")
+            wc.save_frames(interval, tmp_dir, not no_meta, verbose)  # save frames
+        except:
+            url = f"http://webcat-video.axds.co/{item[0]}/raw/{item[1]}/{item[1]}_{item[2]}/{item[1]}_{item[2]}_{item[3]}/{item[0]}.{item[1]}-{item[2]}-{item}_{item[4]}.mp4"
+            print(f"Warning: {url} not a valid url... Skipping.")
+
+
+def dir_path(path: str):
+    """Utility function for argparse to check existence of a passed directory.
+
+    Parameters
+    ----------
+    path : str
+        Absolute path to local directory.
+
+    """
+
+    if os.path.isdir(path):
+        return path
+    else:
+        raise argparse.ArgumentTypeError(
+            f"readable_dir:{path} is not a valid directory path."
+        )
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(
+        description="CLI for saving frames of webCAT video(s)."
+    )
+    required = parser.add_argument_group("required arguments")
+    # below I'm using --arg with "required" to allow for multiple "nargs"
+    required.add_argument(
+        "-dir",
+        "--directory",
+        type=dir_path,
+        help="Absolute path of directory to save frames in.",
+        required=True,
+    )
+    required.add_argument(
+        "-s",
+        "--station",
+        nargs="+",
+        type=str,
+        help="The station name, e.g., buxtoncoastalcam.",
+        required=True,
+    )
+    required.add_argument(
+        "-y",
+        "--year",
+        nargs="+",
+        type=int,
+        help="The video year(s), e.g., 2019 2020.",
+        required=True,
+    )
+    required.add_argument(
+        "-m",
+        "--month",
+        nargs="+",
+        type=int,
+        help="The video month(s), e.g., 9 10 11.",
+        required=True,
+    )
+    required.add_argument(
+        "-d",
+        "--day",
+        nargs="+",
+        type=int,
+        help="The video day(s) e.g., 1 11 21.",
+        required=True,
+    )
+    required.add_argument(
+        "-t",
+        "--time",
+        nargs="+",
+        type=int,
+        help="The video time(s), e.g., 1000 1330 1510.",
+        required=True,
+    )
+    parser.add_argument(
+        "-i",
+        "--interval",
+        default=10,
+        type=int,
+        help="Interval in seconds between video frames to save (default: 10).",
+    )
+    parser.add_argument(
+        "-n",
+        "--no_meta",
+        action="store_true",
+        help="Don't save .csv file of metadata of saved video frames.",
+    )
+    parser.add_argument(
+        "-v", "--verbose", action="store_true", help="Print program status."
+    )
+    args = parser.parse_args()
+    cli(
+        args.directory,
+        args.station,
+        args.year,
+        args.month,
+        args.day,
+        args.time,
+        args.interval,
+        args.no_meta,
+        args.verbose,
+    )
