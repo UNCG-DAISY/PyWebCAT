@@ -1,6 +1,6 @@
 MIT License
 
-Copyright (c) 2020 Evan B. Goldstein
+Copyright (c) 2020 Tomas Beuzen & Evan B. Goldstein
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
