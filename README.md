@@ -9,7 +9,7 @@ Short description.
 
 ### Module
 
-The webcat_utils module can be imported to access functionality on an as-needed basis. See the [demo Jupyter notebook](docs/webcat_utils_demo.ipynb) for a worked example.
+The webcat_utils module can be imported to access functionality on an as-needed basis. See the [demo Jupyter notebook](notebooks/webcat_utils_demo.ipynb) for a worked example.
 
 ```{python}
 from webcat_utils import WebCAT
