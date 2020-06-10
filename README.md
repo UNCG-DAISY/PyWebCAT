@@ -36,7 +36,8 @@ wc.plot_average_frame()  # plot time-averaged frame
 A key workflow for utilising WebCAT videos is to split videos into select frames for further analysis. While this functionality is supported by the `WebCAT.save_frames()` method, it is further exposed as a CLI.
 
 ```{sh}
-$ python webcat_utils.py
+$ python webcat_utils.py -h
+
 usage: webcat_utils.py [-h] -dir DIRECTORY -s STATION [STATION ...] -y YEAR
                        [YEAR ...] -m MONTH [MONTH ...] -d DAY [DAY ...] -t
                        TIME [TIME ...] [-i INTERVAL] [-n] [-v]
