@@ -2,12 +2,7 @@
 
 [![PyPI](https://img.shields.io/pypi/v/pywebcat)](
 https://pypi.org/project/pywebcat)
-[![Codecov](https://img.shields.io/codecov/c/gh/UNCG-DAISY/pywebcat)](
-https://codecov.io/gh/UNCG-DAISY/pywebcat)
-[![ReadTheDocs](https://readthedocs.org/projects/psi-collect/badge/?version=master)](
-https://psi-collect.readthedocs.io/en/master/)
-[![Last Commit](https://img.shields.io/github/last-commit/UNCG-DAISY/pywebcat)](
-https://github.com/UNCG-DAISY/pywebcat/commits/master)
+[![Documentation Status](https://readthedocs.org/projects/pywebcat/badge/?version=latest)](https://pywebcat.readthedocs.io/en/latest/?badge=latest)
 
 Python module and CLI for accessing [WebCAT videos](https://secoora.org/webcat/).
 
