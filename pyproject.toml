@@ -1,0 +1,34 @@
+[tool.poetry]
+name = "pywebcat"
+version = "0.1.0"
+description = "Python tool for working with the NOAA NOS Web Camera Applications Testbed (WebCAT)"
+authors = ["Tomas Beuzen <tomas.beuzen@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/UNCG-DAISY/WebCAT-Utilities"
+homepage = "https://github.com/UNCG-DAISY/WebCAT-Utilities"
+documentation = "https://pywebcat.readthedocs.io"
+
+[tool.poetry.dependencies]
+python = "^3.7"
+pandas = "^1.0.4"
+numpy = "^1.18.5"
+opencv-python = "^4.2.0"
+matplotlib = "^3.2.1"
+tqdm = "^4.46.1"
+
+[tool.poetry.dev-dependencies]
+pytest = "^5.4.3"
+black = "^19.10b0"
+flake8 = "^3.8.3"
+pytest-cov = "^2.9.0"
+sphinx = "^3.1.0"
+sphinx-rtd-theme = "^0.4.3"
+sphinxcontrib-napoleon = "^0.7"
+
+[tool.poetry.scripts]
+pywebcat = "pywebcat.cli:main"
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"
