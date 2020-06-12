@@ -58,10 +58,10 @@ required arguments:
                         The video time(s), e.g., 1000 1330 1510.
 ```
 
-The CLI facilitates efficiently looping over input arguments to locate one or more WebCAT videos and split them into a desired number of frames which are then saved locally. Here's an example looping over several videos from the Buxton coastal camera on 13th Nov 2019 at different times (a 100 second interval is specified for saving the frames and verbosity is turned on):
+The CLI facilitates efficiently looping over input arguments to locate one or more WebCAT videos and split them into a desired number of frames which are then saved locally. Here's an example looping over several videos from the Buxton coastal camera on 13th Nov 2019 at different times (a 10 second interval is specified for saving the frames and verbosity is turned on):
 
 ```{sh}
-$ pywebcat -dir /Users/tbeuzen/Downloads -s buxtoncoastalcam -y 2019 -m 11 -d 13 -t 1000 1210 1530 -i 100 -v
+$ pywebcat -dir /Users/tbeuzen/Downloads -s buxtoncoastalcam -y 2019 -m 11 -d 13 -t 1000 1210 1530 -i 10 -v
 Saving frames of buxtoncoastalcam_2019_11_13_1000...
 100%|██████████████████████████████████████████████| 62/62 [00:14<00:00,  4.22it/s]
 Saving frames of buxtoncoastalcam_2019_11_13_1210...
@@ -125,7 +125,7 @@ Contributions are welcome and greatly appreciated! If you're interested in contr
 
 ## Contributors
 
-All contributions are welcomed and recognized! You can see a list of current contributors in the [contributors tab](https://github.com/UNCG-DAISY/WebCAT-Utilities/graphs/contributors).
+All contributions are welcomed and recognized! You can see a list of current contributors in the [contributors tab](https://github.com/UNCG-DAISY/pywebcat/graphs/contributors).
 
 ## Acknowledgements
 
