@@ -6,6 +6,12 @@ https://pypi.org/project/pywebcat)
 
 Python module and CLI for accessing [WebCAT videos](https://secoora.org/webcat/).
 
+## Install
+
+```{sh}
+pip install pywebcat
+```
+
 ## Usage
 
 ### CLI
