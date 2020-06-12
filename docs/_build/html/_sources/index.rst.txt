@@ -23,7 +23,6 @@ To get started, check out the sections below:
    contributing
    conduct
    contributors
-   :ref:`genindex`
 
 Indices
 =======

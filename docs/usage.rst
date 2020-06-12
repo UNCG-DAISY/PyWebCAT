@@ -76,7 +76,7 @@ The outputted .csv file contains metadata for the saved frames:
     :widths: 20, 20, 20, 20
 
     "http://webcat-video.axds.co/buxtoncoastalcam/raw/2019/2019_11/2019_11_13/buxtoncoastalcam.2019-11-13_1000.mp4", "buxtoncoastalcam_2019_11_13_1000", 0, "/Users/tbeuzen/Downloads/buxtoncoastalcam/buxtoncoastalcam_2019_11_13_1000/jpg/frame_0.jpg"
-    "http://webcat-video.axds.co/buxtoncoastalcam/raw/2019/2019_11/2019_11_13/buxtoncoastalcam.2019-11-13_1000.mp4", "buxtoncoastalcam_2019_11_13_1000", 280, "/Users/tbeuzen/Downloads/buxtoncoastalcam/buxtoncoastalcam_2019_11_13_1000/jpg/frame_280.jpg"
+    "http://webcat-video.axds.co/buxtoncoastalcam/raw/2019/2019_11/2019_11_13/buxtoncoastalcam.2019-11-13_1210.mp4", "buxtoncoastalcam_2019_11_13_1210", 280, "/Users/tbeuzen/Downloads/buxtoncoastalcam/buxtoncoastalcam_2019_11_13_1210/jpg/frame_280.jpg"
     "...", "...", "...", "..."
 
 Module
