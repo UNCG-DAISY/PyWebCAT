@@ -40,7 +40,7 @@ A key workflow for utilising WebCAT videos is to split videos into frames for fu
       -t TIME [TIME ...], --time TIME [TIME ...]
                             The video time(s), e.g., 1000 1330 1510.
 
-The CLI facilitates efficiently looping over input arguments to locate one or more WebCAT videos and split them into a desired number of frames which are then saved locally. Here's an example looping over several videos from the Buxton coastal camera on 13th Nov 2019 at different times (a 10 second interval is specified for saving the frames and verbosity is turned on):
+The CLI facilitates efficiently looping over input arguments to locate one or more WebCAT videos and split them into a desired number of frames which are then saved locally. Here's an example looping over several videos from the Buxton coastal camera on 13th Nov 2019 at different times (a 100 second interval is specified for saving the frames and verbosity is turned on):
 
 .. code-block:: console
 

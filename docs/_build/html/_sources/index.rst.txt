@@ -1,14 +1,12 @@
-Welcome to pywebcat's documentation!
+Welcome to PyWebCAT's documentation!
 ===========================================================
 
-.. image:: https://img.shields.io/badge/tutorial-py--pkgs-blue
-        :target: https://ubc-mds.github.io/py-pkgs/
+.. image:: https://img.shields.io/pypi/v/pywebcat
+        :alt: PyPI
 
-.. image:: https://img.shields.io/badge/cookiecutter-ubc--mds-yellow
-        :target: https://github.com/UBC-MDS/cookiecutter-ubc-mds
-
-.. image:: https://img.shields.io/badge/badges-shields.io-brightgreen
-        :target: https://shields.io/
+.. image:: https://readthedocs.org/projects/pywebcat/badge/?version=latest
+        :target: https://pywebcat.readthedocs.io/en/latest/?badge=latest
+        :alt: Documentation Status
 
 Python tool for working with the NOAA NOS Web Camera Applications Testbed (WebCAT).
 

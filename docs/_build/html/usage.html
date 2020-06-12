@@ -82,6 +82,7 @@
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="background.html">Background</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Usage</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#cli">CLI</a></li>
@@ -91,10 +92,6 @@
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="conduct.html">Code of Conduct</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contributors.html">Credits</a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="source/modules.html">hi</a></li>
-<li class="toctree-l1"><a class="reference internal" href="source/pywebcat.html">pywebcat package</a></li>
 </ul>
 
             
@@ -196,7 +193,7 @@
 <span class="go">                        The video time(s), e.g., 1000 1330 1510.</span>
 </pre></div>
 </div>
-<p>The CLI facilitates efficiently looping over input arguments to locate one or more WebCAT videos and split them into a desired number of frames which are then saved locally. Here’s an example looping over several videos from the Buxton coastal camera on 13th Nov 2019 at different times (a 10 second interval is specified for saving the frames and verbosity is turned on):</p>
+<p>The CLI facilitates efficiently looping over input arguments to locate one or more WebCAT videos and split them into a desired number of frames which are then saved locally. Here’s an example looping over several videos from the Buxton coastal camera on 13th Nov 2019 at different times (a 100 second interval is specified for saving the frames and verbosity is turned on):</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> pywebcat -dir /Users/tbeuzen/Downloads -s buxtoncoastalcam -y <span class="m">2019</span> -m <span class="m">11</span> -d <span class="m">13</span> -t <span class="m">1000</span> <span class="m">1210</span> <span class="m">1530</span> -i <span class="m">100</span> -v
 <span class="go">Saving frames of buxtoncoastalcam_2019_11_13_1000...</span>
 <span class="go">100%|██████████████████████████████████████████████| 62/62 [00:14&lt;00:00,  4.22it/s]</span>

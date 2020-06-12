@@ -13,7 +13,7 @@ Types of Contributions
 Report Bugs
 ~~~~~~~~~~~
 
-Report bugs at https://github.com/UNCG-DAISY/WebCAT-Utilities/issues.
+Report bugs at https://github.com/UNCG-DAISY/PyWebCAT/issues.
 
 If you are reporting a bug, please include:
 
@@ -43,7 +43,7 @@ articles, and such.
 Submit Feedback
 ~~~~~~~~~~~~~~~
 
-The best way to send feedback is to file an issue at https://github.com/UNCG-DAISY/WebCAT-Utilities/issues.
+The best way to send feedback is to file an issue at https://github.com/UNCG-DAISY/PyWebCAT/issues.
 
 If you are proposing a feature:
 
@@ -57,13 +57,13 @@ Get Started!
 
 Ready to contribute? Here's how to set up `pywebcat` for local development.
 
-1. Fork the `WebCAT-Utilities` repo on GitHub.
+1. Fork the `PyWebCAT` repo on GitHub.
 
 2. Clone your fork locally:
 
 .. code-block:: console
 
- 	$ git clone git@github.com:UNCG-DAISY/WebCAT-Utilities.git
+ 	$ git clone git@github.com:UNCG-DAISY/PyWebCAT.git
 
 3. Create a branch for local development:
 
@@ -96,4 +96,4 @@ Before you submit a pull request, check that it meets these guidelines:
 
 Code of Conduct
 ---------------
-Please note that the WebCAT-Utilities project is released with a Contributor Code of Conduct. By contributing to this project you agree to abide by its terms.
+Please note that the PyWebCAT project is released with a Contributor Code of Conduct. By contributing to this project you agree to abide by its terms.
