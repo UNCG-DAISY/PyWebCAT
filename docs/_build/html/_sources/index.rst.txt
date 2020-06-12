@@ -18,6 +18,7 @@ To get started, check out the sections below:
    :maxdepth: 1
    :caption: Contents:
 
+   background
    installation
    usage
    contributing
