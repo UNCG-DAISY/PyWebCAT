@@ -1,7 +1,6 @@
 # PyWebCAT
 
-[![PyPI](https://img.shields.io/pypi/v/pywebcat)](
-https://pypi.org/project/pywebcat)
+[![PyPI version](https://badge.fury.io/py/pywebcat.svg)](https://badge.fury.io/py/pywebcat)
 [![Documentation Status](https://readthedocs.org/projects/pywebcat/badge/?version=latest)](https://pywebcat.readthedocs.io/en/latest/?badge=latest)
 ![build](https://github.com/UNCG-DAISY/PyWebCAT/workflows/build/badge.svg?branch=master)
 [![codecov](https://codecov.io/gh/UNCG-DAISY/PyWebCAT/branch/master/graph/badge.svg)](https://codecov.io/gh/UNCG-DAISY/PyWebCAT)
