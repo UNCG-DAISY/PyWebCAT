@@ -8,6 +8,9 @@ Welcome to PyWebCAT's documentation!
         :target: https://pywebcat.readthedocs.io/en/latest/?badge=latest
         :alt: Documentation Status
 
+.. image:: https://github.com/UNCG-DAISY/PyWebCAT/workflows/build/badge.svg?branch=master
+        :alt: Build Status
+
 Python tool for working with the NOAA NOS Web Camera Applications Testbed (WebCAT).
 
 To get started, check out the sections below:
