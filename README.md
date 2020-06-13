@@ -4,6 +4,7 @@
 https://pypi.org/project/pywebcat)
 [![Documentation Status](https://readthedocs.org/projects/pywebcat/badge/?version=latest)](https://pywebcat.readthedocs.io/en/latest/?badge=latest)
 ![build](https://github.com/UNCG-DAISY/PyWebCAT/workflows/build/badge.svg?branch=master)
+[![codecov](https://codecov.io/gh/UNCG-DAISY/PyWebCAT/branch/master/graph/badge.svg)](https://codecov.io/gh/UNCG-DAISY/PyWebCAT)
 
 This repository provides a Pythonic way to interface with the NOAA National Ocean Service Web Camera Applications 
 Testbed (WebCAT). The real-time data is hosted on the [SECOORA site](https://secoora.org) 
