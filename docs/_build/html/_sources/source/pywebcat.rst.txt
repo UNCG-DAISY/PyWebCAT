@@ -4,14 +4,6 @@ pywebcat package
 Submodules
 ----------
 
-pywebcat.cli module
--------------------
-
-.. automodule:: pywebcat.cli
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 pywebcat.utils module
 ---------------------
 

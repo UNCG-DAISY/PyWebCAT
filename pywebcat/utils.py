@@ -107,9 +107,9 @@ class WebCAT:
         Parameters
         ----------
         fout : str
-            The file path to save the downloaded file to, e.g., ~/Downloads/download.mp4, by default None
+            The file path to save the downloaded file to, e.g., ~/Downloads/download.mp4, by default None.
         verbose : {True, False}, optional
-            Display download progress bar, by default True
+            Display download progress bar, by default True.
         """
         fout = self.name + ".mp4" if fout == None else fout
         if verbose:
@@ -133,12 +133,17 @@ class WebCAT:
         ----------
         delta_t : int, optional
             A frame will be saved every delta_t seconds, by default 10.
-        fout : str, optional
+        fout_path : str, optional
             Path to save frames and csv to, e.g., "~/Downloads/".
+        save_csv : {True, False}, optional
+            Save a csv fiel containing saved frame metadata.
+        verbose : {True, False}, optional
+            Display progress bar, by default True.
         """
-        assert delta_t < int(
-            self.frames / self.fps
-        ), f"delta_t should be less than {int(self.frames / self.fps)}"
+        if delta_t >= int(self.frames / self.fps):
+            raise ValueError(
+                f"delta_t should be less than {int(self.frames / self.fps)}."
+            )
         print(self.fps)
         step = delta_t * self.fps
         step_range = range(0, (self.frames + 1), step)
@@ -173,17 +178,21 @@ class WebCAT:
         frames : list, optional
             List of the frames to display in a grid plot, by default [0].
         
+        Returns
+        -------
+        numpy.ndarray of matplotlib.AxesSubplot objects
+
         Examples
         --------
         >>> from webcat_utils import WebCAT
         >>> wc.generate_url("buxtoncoastalcam", 2019, 11, 13, 1000)
         >>> wc.plot_frames()
         ...
-        <matplotlib.subplots>
+        array([[<matplotlib.axes._subplots.AxesSubplot object at 0x12c8922d0>]],
+              dtype=object)
         """
-        assert all(
-            (_ >= 0) & (_ < self.frames) for _ in frames
-        ), f"frames should be between 0 and {self.frames-1}."
+        if not all((_ >= 0) & (_ < self.frames) for _ in frames):
+            raise ValueError(f"frames should be between 0 and {self.frames-1}.")
         rows = 1 + (len(frames) - 1) // 3
         cols = len(frames) if len(frames) < 3 else 3
         fig, ax = plt.subplots(rows, cols, figsize=(cols * 4, rows * 3), squeeze=False)
@@ -200,6 +209,8 @@ class WebCAT:
                 ax[j // 3, j % 3].set_visible(False)
         plt.tight_layout()
 
+        return ax
+
     def plot_average_frame(self, step: int = 500):
         """Plot the average of every "step" frames in the video.
 
@@ -208,13 +219,17 @@ class WebCAT:
         step : int, optional
             The step between frames to average by, lower values result in a smoother average, by default 10.
         
+        Returns
+        -------
+        matplotlib.AxesSubplot
+    
         Examples
         --------
         >>> from webcat_utils import WebCAT
         >>> wc.generate_url("buxtoncoastalcam", 2019, 11, 13, 1000)
         >>> wc.plot_average_frame()
         ...
-        <matplotlib.subplot>
+        <matplotlib.axes._subplots.AxesSubplot>
         """
         N = self.frames // step  # how many frames to average based on step
         timex = np.zeros((self.height, self.width, 3, N), np.float)  # init array
@@ -223,9 +238,11 @@ class WebCAT:
             _, frame_arr = self.video.read()
             timex[:, :, :, i] = cv2.cvtColor(frame_arr, cv2.COLOR_BGR2RGB)
         timex = np.mean(timex, axis=-1).astype(int)
-        plt.subplots(1, 1, figsize=(10, 7))
+        fig, ax = plt.subplots(1, 1, figsize=(10, 7))
         plt.imshow(timex)
         plt.title(f"Average of every {step} frames, {N} frames in total")
+
+        return ax
 
 
 class TqdmUpTo(tqdm):
