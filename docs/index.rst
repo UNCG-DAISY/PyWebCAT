@@ -14,6 +14,9 @@ Welcome to PyWebCAT's documentation!
 .. image:: https://codecov.io/gh/UNCG-DAISY/PyWebCAT/branch/master/graph/badge.svg
         :target: https://codecov.io/gh/UNCG-DAISY/PyWebCAT
 
+.. image:: https://zenodo.org/badge/268162661.svg
+        :target: https://zenodo.org/badge/latestdoi/268162661
+
 Python tool for working with the NOAA NOS Web Camera Applications Testbed (WebCAT).
 
 To get started, check out the sections below:
