@@ -24,9 +24,9 @@ class WebCAT:
 
     Attributes
     ----------
-    url : 
+    url :
         url to the .mp4 file.
-    name : 
+    name :
         Unique name based on url.
     video : cv2.VideoCapture
         The cv2.VideoCapture object of the video file at url.
@@ -92,7 +92,7 @@ class WebCAT:
             Time (24 hr) of video rounded to nearest 10 minutes, e.g., 0500 (5:00 am), 1300 (1:00 pm), 1330 (1:30pm).
 
         """
-        url = f"http://webcat-video.axds.co/{station}/raw/{year}/{year}_{month}/{year}_{month}_{day}/{station}.{year}-{month}-{day}_{time}.mp4"
+        url = f"http://webcat-video.axds.co/{station}/raw/{year}/{year}_{month:02}/{year}_{month:02}_{day:02}/{station}.{year}-{month:02}-{day:02}_{time:04}.mp4"
         vid = cv2.VideoCapture(url)
         if int(vid.get(7)) == 0:  # check if there are any frames
             raise ValueError(f"{url} is not a valid url.")
@@ -177,7 +177,7 @@ class WebCAT:
         ----------
         frames : list, optional
             List of the frames to display in a grid plot, by default [0].
-        
+
         Returns
         -------
         numpy.ndarray of matplotlib.AxesSubplot objects
@@ -218,11 +218,11 @@ class WebCAT:
         ----------
         step : int, optional
             The step between frames to average by, lower values result in a smoother average, by default 10.
-        
+
         Returns
         -------
         matplotlib.AxesSubplot
-    
+
         Examples
         --------
         >>> from webcat_utils import WebCAT
