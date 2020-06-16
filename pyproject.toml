@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pywebcat"
-version = "0.1.2"
+version = "0.1.3"
 description = "Python tool for working with the NOAA NOS Web Camera Applications Testbed (WebCAT)"
 authors = ["Tomas Beuzen <tomas.beuzen@gmail.com>"]
 license = "MIT"
