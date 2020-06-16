@@ -131,4 +131,4 @@ All contributions are welcomed and recognized! You can see a list of current con
 
 ## Acknowledgements
 
-Thanks to the [Southeast Coastal Ocean Observing Regional Association (SECOORA)and the WebCAT project](https://secoora.org/webcat/) for making camera footage publicly available and supporting open science and data.
+Thanks to the [Southeast Coastal Ocean Observing Regional Association (SECOORA) and the WebCAT project](https://secoora.org/webcat/) for making camera footage publicly available and supporting open science and data.
