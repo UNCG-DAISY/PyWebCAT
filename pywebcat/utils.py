@@ -93,13 +93,14 @@ class WebCAT:
 
         """
         url = f"http://webcat-video.axds.co/{station}/raw/{year}/{year}_{month:02}/{year}_{month:02}_{day:02}/{station}.{year}-{month:02}-{day:02}_{time:04}.mp4"
-        vid = cv2.VideoCapture(url)
-        if int(vid.get(7)) == 0:  # check if there are any frames
+        try:
+            urllib.request.urlopen(url)
+        except:
             raise ValueError(f"{url} is not a valid url.")
-        else:
-            self.url = url
-            self.video = vid
-            self.name = f"{station}_{year}_{month}_{day}_{time}"
+        vid = cv2.VideoCapture(url)
+        self.url = url
+        self.video = vid
+        self.name = f"{station}_{year}_{month}_{day}_{time}"
 
     def download_url(self, fout: str = None, verbose: bool = True):
         """Download the video from the instance url.
@@ -144,9 +145,8 @@ class WebCAT:
             raise ValueError(
                 f"delta_t should be less than {int(self.frames / self.fps)}."
             )
-        print(self.fps)
         step = delta_t * self.fps
-        step_range = range(0, (self.frames + 1), step)
+        step_range = range(0, (self.frames), step)
         loop = tqdm(step_range) if verbose else step_range
         tmp_dir = os.path.join(fout_path, "jpg")  # save images in a "jpg" folder
         if os.path.exists(tmp_dir):
