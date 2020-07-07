@@ -21,7 +21,9 @@ def main():
     wc = WebCAT()
     for item in itertools.product(station, year, month, day, time):
         try:
+            sys.stdout = open(os.devnull, "w")  # capture any output from url generation
             wc.generate_url(*item)  # generate url from the input data
+            sys.stdout = sys.__stdout__  # reinstate output
             tmp_dir = os.path.join(directory, item[0], wc.name)  # dir to save frames in
             if not os.path.exists(tmp_dir):
                 os.makedirs(tmp_dir)  # mkdir if not exist
@@ -29,8 +31,9 @@ def main():
                 print(f"Saving frames of {wc.name}...")
             wc.save_frames(interval, tmp_dir, not no_meta, verbose)  # save frames
         except:
-            url = f"http://webcat-video.axds.co/{item[0]}/raw/{item[1]}/{item[1]}_{item[2]}/{item[1]}_{item[2]}_{item[3]}/{item[0]}.{item[1]}-{item[2]}-{item}_{item[4]}.mp4"
-            print(f"Warning: {url} not a valid url... Skipping.")
+            if verbose:
+                url = f"http://webcat-video.axds.co/{item[0]}/raw/{item[1]}/{item[1]}_{item[2]:02}/{item[1]}_{item[2]:02}_{item[3]:02}/{item[0]}.{item[1]}-{item[2]:02}-{item[3]:02}_{item[4]:04}.mp4"
+                print(f"Warning: {url} not a valid url... Skipping.")
 
 
 def parse_args():
