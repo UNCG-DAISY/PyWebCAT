@@ -6,7 +6,7 @@ import os
 
 
 def test_version():
-    assert __version__ == "0.1.6"
+    assert __version__ == "0.2.0"
 
 
 def test_generate_url():
@@ -31,18 +31,21 @@ def test_save_frames(tmpdir):
     wc = WebCAT()
     wc.generate_url("buxtoncoastalcam", 2019, 11, 13, 1000)
     wc.save_frames(
-        delta_t=int(wc.frames / wc.fps // 2), fout_path=tmpdir, save_csv=True
+        delta_t=int(wc.frames / wc.fps // 2),
+        fout_path=tmpdir,
+        save_csv=True,
+        quality=0.5,
     )
     with raises(ValueError):
         wc.save_frames(delta_t=wc.frames)
 
 
-# commenting out for now because this test takes some time
-# def test_download(tmpdir):
-#     wc = WebCAT()
-#     wc.generate_url("buxtoncoastalcam", 2019, 11, 13, 1000)
-#     wc.download_url(fout=os.path.join(tmpdir, "download.mp4"), verbose=False)
-#     wc.download_url(fout=os.path.join(tmpdir, "download.mp4"), verbose=True)
+# feel free to comment out because this test takes some time
+def test_download(tmpdir):
+    wc = WebCAT()
+    wc.generate_url("buxtoncoastalcam", 2019, 11, 13, 1000)
+    wc.download_url(fout=os.path.join(tmpdir, "download.mp4"), verbose=False)
+    wc.download_url(fout=os.path.join(tmpdir, "download.mp4"), verbose=True)
 
 
 def test_plotting():
