@@ -43,6 +43,9 @@ optional arguments:
                         (default: 10).
   -n, --no_meta         Don't save .csv file of metadata of saved video
                         frames.
+  -q QUALITY, --quality QUALITY
+                        Quality of saved frames between 0 (lowest) and 100
+                        (highest) (default: 95).
   -v, --verbose         Print program status.
 
 required arguments:
@@ -91,11 +94,11 @@ Users/tbeuzen/Downloads
 
 The outputted .csv file contains metadata for the saved frames:
 
-| url        | name           | frame  | path|
-| ------------- |-------------| -----|---|
-|http://webcat-video.axds.co/buxtoncoastalcam/raw/2019/2019_11/2019_11_13/buxtoncoastalcam.2019-11-13_1000.mp4|buxtoncoastalcam_2019_11_13_1000|0|/Users/tbeuzen/Downloads/buxtoncoastalcam/buxtoncoastalcam_2019_11_13_1000/jpg/frame_0.jpg|
-|http://webcat-video.axds.co/buxtoncoastalcam/raw/2019/2019_11/2019_11_13/buxtoncoastalcam.2019-11-13_1000.mp4|buxtoncoastalcam_2019_11_13_1000|280|/Users/tbeuzen/Downloads/buxtoncoastalcam/buxtoncoastalcam_2019_11_13_1000/jpg/frame_280.jpg|
-|...|...|...|...|
+| url                                                                                                           | name                             | frame | path                                                                                         |
+|---------------------------------------------------------------------------------------------------------------|----------------------------------|-------|----------------------------------------------------------------------------------------------|
+| http://webcat-video.axds.co/buxtoncoastalcam/raw/2019/2019_11/2019_11_13/buxtoncoastalcam.2019-11-13_1000.mp4 | buxtoncoastalcam_2019_11_13_1000 | 0     | /Users/tbeuzen/Downloads/buxtoncoastalcam/buxtoncoastalcam_2019_11_13_1000/jpg/frame_0.jpg   |
+| http://webcat-video.axds.co/buxtoncoastalcam/raw/2019/2019_11/2019_11_13/buxtoncoastalcam.2019-11-13_1000.mp4 | buxtoncoastalcam_2019_11_13_1000 | 280   | /Users/tbeuzen/Downloads/buxtoncoastalcam/buxtoncoastalcam_2019_11_13_1000/jpg/frame_280.jpg |
+| ...                                                                                                           | ...                              | ...   | ...                                                                                          |
 
 ### Module
 
