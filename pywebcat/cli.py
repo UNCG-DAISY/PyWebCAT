@@ -16,6 +16,7 @@ def main():
         time,
         interval,
         no_meta,
+        quality,
         verbose,
     ) = parse_args()
     wc = WebCAT()
@@ -27,7 +28,9 @@ def main():
                 os.makedirs(tmp_dir)  # mkdir if not exist
             if verbose:
                 print(f"Saving frames of {wc.name}...")
-            wc.save_frames(interval, tmp_dir, not no_meta, verbose)  # save frames
+            wc.save_frames(
+                interval, tmp_dir, not no_meta, quality, verbose
+            )  # save frames
         except Exception as e:
             if verbose:
                 url = f"http://webcat-video.axds.co/{item[0]}/raw/{item[1]}/{item[1]}_{item[2]:02}/{item[1]}_{item[2]:02}_{item[3]:02}/{item[0]}.{item[1]}-{item[2]:02}-{item[3]:02}_{item[4]:04}.mp4"
@@ -101,6 +104,13 @@ def parse_args():
         help="Don't save .csv file of metadata of saved video frames.",
     )
     parser.add_argument(
+        "-q",
+        "--quality",
+        default=95,
+        type=int,
+        help="Quality of saved frames between 0 (lowest) and 100 (highest) (default: 95).",
+    )
+    parser.add_argument(
         "-v", "--verbose", action="store_true", help="Print program status."
     )
     args = parser.parse_args()
@@ -114,6 +124,7 @@ def parse_args():
         args.time,
         args.interval,
         args.no_meta,
+        args.quality,
         args.verbose,
     )
 

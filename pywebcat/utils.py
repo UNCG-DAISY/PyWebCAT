@@ -126,7 +126,12 @@ class WebCAT:
             urllib.request.urlretrieve(self.url, fout)
 
     def save_frames(
-        self, delta_t: int = 10, fout_path: str = "", save_csv=True, verbose=False
+        self,
+        delta_t: int = 10,
+        fout_path: str = "",
+        save_csv=True,
+        quality: int = 95,
+        verbose=False,
     ):
         """Download the video from the instance url.
 
@@ -138,8 +143,16 @@ class WebCAT:
             Path to save frames and csv to, e.g., "~/Downloads/".
         save_csv : {True, False}, optional
             Save a csv fiel containing saved frame metadata.
+        quality: int, optional
+            Quality of the written JPEG images between 0 (lowest quality) and 100 (highest quality), by default 95.
         verbose : {True, False}, optional
             Display progress bar, by default True.
+
+        Examples
+        --------
+        >>> from webcat_utils import WebCAT
+        >>> wc.generate_url("buxtoncoastalcam", 2019, 11, 13, 1000)
+        >>> wc.save_frames(delta_t=100, fout_path="./", save_csv=False)
         """
         if delta_t >= int(self.frames / self.fps):
             raise ValueError(
@@ -155,7 +168,11 @@ class WebCAT:
         for i in loop:
             self.video.set(1, i)
             _, frame_arr = self.video.read()
-            cv2.imwrite(os.path.join(tmp_dir, f"frame_{i}.jpg"), frame_arr)
+            cv2.imwrite(
+                os.path.join(tmp_dir, f"frame_{i}.jpg"),
+                frame_arr,
+                [cv2.IMWRITE_JPEG_QUALITY, quality],
+            )
         if save_csv:
             (
                 pd.DataFrame(
@@ -278,3 +295,4 @@ class TqdmUpTo(tqdm):
         if tsize is not None:
             self.total = tsize
         self.update(b * bsize - self.n)  # will also set self.n = b * bsize
+
