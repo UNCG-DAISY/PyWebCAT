@@ -41,8 +41,16 @@ class WebCAT:
 
     Methods
     -------
+    generate_url(self, station: str, year: int, month: int, day: int, time: int)
+        Generate WebCAT URLs and expressive name for files from user inputs
     download_url(self, fout=None, verbose=1)
         Download the video from the url.
+    save_frames(self, delta_t: int = 10, fout_path: str = "", save_csv=True, quality: int = 95, verbose=False)
+        Save video frames as JPEG files.
+    plot_frames(self, frames: list = [0])
+        Plot frames from the video, zero-based indexing.
+    plot_average_frame(self, step: int = 500)
+        Plot the average of every "step" frames in the video.
 
     Examples
     --------
@@ -133,7 +141,7 @@ class WebCAT:
         quality: int = 95,
         verbose=False,
     ):
-        """Download the video from the instance url.
+        """Save video frames as JPEG files.
 
         Parameters
         ----------
